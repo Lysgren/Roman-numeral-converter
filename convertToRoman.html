@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+	
+		<!-- Titel på hemsidan -->
+		<title>Convert to Roman</title>
+		
+		<!-- Övrig nödvändig kod -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Oscar Lysgren">
+		<META NAME="Description" CONTENT="JavaScript">
+		<meta charset="UTF-8">
+		
+		<!-- Favicon -->
+		<link rel="icon" href="favicon.png" type="image/x-icon">
+		
+<style>
+
+</style>
+
+</head>
+<body>
+
+	<center>	
+	  <form>
+		  <table>
+			  <tr>
+			    <td>Enter a number to covert it:</td>
+				<td><input type="text" id="number"  size="5"></td>
+			  </tr>
+
+			  <tr>
+				  <td>&nbsp;</td>
+			      <td><input type="button" id="button" value="Calculate" onclick="convertToRoman(this.form);"></td>
+			  </tr>
+		  </table>
+		</form>
+	</center>
+
+	<p align=center id="output"></p>
+
+<script>
+"use strict";
+
+// Creates the random number that is displayed when a user enters the site
+document.getElementById("number").value = Math.floor(Math.random() * 4999) + 1;
+
+function convertToRoman (form) {
+  
+  // Get user input
+  let num = document.getElementById("number").value
+
+  try {
+
+  	// Error handling for input that isn't numbers
+    if (isNaN(num)) {
+      throw("You didn't enter a number that could be converted...")
+  
+    // The symbol for 5000 can't properly be displayed on my IDE so I didn't bother with it
+    } else if (num >= 5000) {
+      throw("Unfortunatly my IDE can't properly interpret Roman numerals above 4999 ¯\\_(ツ)_/¯ ")
+
+    // Error handling for when a zero is entered 
+    } else if (num == 0) {
+      throw("Roman numerals didn't have a zero!")
+
+    // Error handling for negative numbers
+    } else if (num < 0) {
+      throw("Roman numerals must be positive!")
+  
+    } else {	
+      // Splits the entered number for later processing
+      let digits = String(+num).split("")
+
+      let key = ["","M","MM","MMM","MMMM","V","VM","VMM","VMMM","VMMMM", // 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000
+		  	         "","C","CC","CCC","CD","D","DC","DCC","DCCC","CM", // 100, 200, 300, 400, 500, 600, 700, 800, 900
+		             "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC", // 10, 20, 30, 40, 50, 60, 70, 80, 90
+		             "","I","II","III","IV","V","VI","VII","VIII","IX"] // 1, 2, 3, 4, 5, 6, 7, 8, 9
+      let roman = ""
+  
+      // Converts the entered number into a roman numeral using the array "key"
+      let i = 4;
+        while (i--) {
+         roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+         }
+	
+      document.getElementById("output").innerHTML = roman;
+    }
+
+  }
+   catch (error) {document.getElementById("output").innerHTML = "ERROR: " + error;}
+
+}
+
+</script>
+
+</body>
+</html>
